@@ -171,7 +171,10 @@ h1,h2,h3,h4 { font-family: var(--head); font-weight: 700; line-height: 1.05; let
   stroke-dasharray: 4000;
   stroke-dashoffset: 4000;
   animation: drawPath 3.5s cubic-bezier(.4,0,.2,1) forwards;
-  animation-delay: .3s;
+  animation-play-state: paused;
+}
+.hero-blob-path.animated.start {
+  animation-play-state: running;
 }
 .hero-blob-fill {
   opacity: 0;
@@ -786,7 +789,7 @@ body.intro-active { overflow: hidden; }
     />
 
     <!-- İnce çizgi 1 — ana akış çizgisi -->
-    <path class="hero-blob-path animated" style="stroke-dasharray:4000;stroke-dashoffset:4000;animation:drawPath 3.5s cubic-bezier(.4,0,.2,1) forwards .3s;fill:none;"
+    <path class="hero-blob-path animated"
       d="
         M 1440 920
         C 1360 860, 1280 800, 1200 730
@@ -807,7 +810,7 @@ body.intro-active { overflow: hidden; }
     />
 
     <!-- İnce çizgi 2 — paralel iç çizgi, biraz offset -->
-    <path class="hero-blob-path animated" style="stroke-dasharray:4000;stroke-dashoffset:4000;animation:drawPath 3.5s cubic-bezier(.4,0,.2,1) forwards .8s;fill:none;"
+    <path class="hero-blob-path animated"
       d="
         M 1440 880
         C 1350 820, 1270 765, 1185 695
@@ -1624,6 +1627,10 @@ body.intro-active { overflow: hidden; }
       setTimeout(function() {
         overlay.classList.add('hide');
         document.body.classList.remove('intro-active');
+        // Hero çizgi animasyonunu şimdi başlat
+        document.querySelectorAll('.hero-blob-path.animated').forEach(function(p, i) {
+          setTimeout(function() { p.classList.add('start'); }, i * 400);
+        });
         // DOM'dan tamamen kaldır
         setTimeout(function() {
           overlay.style.display = 'none';
